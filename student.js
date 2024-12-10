@@ -83,10 +83,6 @@ StudentRouter.post('/addStudent', (req, res) => {
 // Xóa học sinh
 StudentRouter.delete('/deleteStudent', (req, res) => {
     const { studentId } = req.body;
-    const getStudentId = studetList.find((e) => e.studentId == studentId);
-    if (!getStudentId) {
-        return res.status(400).json({ message: 'Student does not existed!.' });
-    }
     let newStudent = studetList.filter((e) => e.studentId !== studentId);
     studetList.splice(0, studetList.length, ...newStudent); // reassign new array after deleting element (Delete from studetList has index = 0 to studetList.length, reassign)
     return res.status(200).json({ message: studetList });
@@ -122,6 +118,8 @@ StudentRouter.post('/updateStudent', (req, res) => {
             getStudentId.classId = classID || getStudentId.classId; // IF user enter class => update. Not => Keep the same
             
             return res.status(200).json({ message: studetList });
+        }else{
+            return res.status(400).json({ message: 'Student does not existed.' });
         }
     } else {
         return res.status(400).json({ message: 'Student ID is required.' });

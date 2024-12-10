@@ -1,8 +1,8 @@
-FROM node:18.1-alpine
+FROM node:22-alpine
 
-WORKDIR /home/nodeapp
+WORKDIR /home/nodeexpress
 
-COPY . /home/nodeapp
+COPY . /home/nodeexpress
 
 RUN npm install
 
