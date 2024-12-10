@@ -12,4 +12,4 @@ export let classList = [
     { classID: 'C003', className: 'English' },
     { classID: 'C004', className: 'Physical' },
     { classID: 'C005', className: 'Biogical' },
-];
+]
