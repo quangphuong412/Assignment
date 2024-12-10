@@ -1,4 +1,10 @@
 {
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "prepare": "husky",
+        "format": "prettier --write \"src/**/*.js\"",
+        "commitlint": "commitlint --edit"
+    },
     "dependencies": {
         "body-parser": "^1.20.3",
         "express": "^4.21.1"
