@@ -1,4 +1,4 @@
-let { studetList, classList } = require('./data.js');
+let { studetList, classList } = require('../model/data.js');
 const express = require('express');
 const ClassRouter = express.Router();
 

@@ -1,6 +1,10 @@
-let { studetList, classList } = require('./data');
+let { studetList, classList } = require('../data');
 const express = require('express');
 const StudentRouter = express.Router();
+
+const findStudentByID = (id) => studetList.find((e) => e.studentId == id)
+const checkNameExists = (stuName) =>  studetList.find((e) => e.name == stuName)
+const findClassByID = (classId) => classList.find((e) => e.classID == classId)
 
 // Truy xuất tất cả danh sách học sinh
 StudentRouter.get('/getAllStudent', (req, res) => {
@@ -14,7 +18,7 @@ StudentRouter.get('/getAllStudent', (req, res) => {
 // Truy xuất thông tin HS theo ID
 StudentRouter.get('/getStudentById/:studentId', (req, res) => {
     const { studentId } = req.params;
-    const getStudentById = studetList.find((e) => e.studentId == studentId);
+    const getStudentById = findStudentByID(studentId)
     if (getStudentById) {
         return res.status(200).json({ message: getStudentById });
     } else {
@@ -58,7 +62,7 @@ StudentRouter.post('/addStudent', (req, res) => {
     const checkExistStudent = studetList.find(
         (e) => e.name == studentName || e.studentId == studentId,
     ); // Check Class ID, Class Name Existed
-    const checkExistClass = classList.find((e) => e.classID == classID);
+    const checkExistClass = findClassByID(classID)
     if (!classID || !studentId || !studentName) {
         return res.status(400).json({ message: "Student's information is required" });
     }
@@ -89,15 +93,16 @@ StudentRouter.delete('/deleteStudent', (req, res) => {
 StudentRouter.post('/updateStudent', (req, res) => {
     const { studentName, studentId, classID } = req.body;
     if (studentId) {
-        const getStudentId = studetList.find((e) => e.studentId == studentId);
+        const getStudentId = findStudentByID(studentId)
         if (getStudentId) {
-            if (studentName) { const checkNameExist = studetList.find((e) => e.name == studentName,);
+            if (studentName) { 
+                const checkNameExist = checkNameExists(studentName);
                 if (checkNameExist) {
                     return res.status(400).json({ message: 'Student Name existed!.' });
                 }
             }
             if (classID) {
-                const checkClassExist = classList.find((e) => e.classID == classID);
+                const checkClassExist = findClassByID(classID)
                 if (!checkClassExist) {
                     return res.status(400).json({ message: 'Class does not existed!.' });
                 }
