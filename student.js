@@ -60,14 +60,10 @@ StudentRouter.post('/addStudent', (req, res) => {
     ); // Check Class ID, Class Name Existed
     const checkExistClass = classList.find((e) => e.classID == classID);
     if (!classID || !studentId || !studentName) {
-        return res
-            .status(400)
-            .json({ message: "Student's information is required" });
+        return res.status(400).json({ message: "Student's information is required" });
     }
     if (checkExistStudent) {
-        return res
-            .status(400)
-            .json({ message: 'Student Name or Student ID Existed!' });
+        return res.status(400).json({ message: 'Student Name or Student ID Existed!' });
     }
     if (!checkExistClass) {
         return res.status(400).json({ message: 'Class does not Existed!' });
@@ -85,7 +81,7 @@ StudentRouter.post('/addStudent', (req, res) => {
 StudentRouter.delete('/deleteStudent', (req, res) => {
     const { studentId } = req.body;
     let newStudent = studetList.filter((e) => e.studentId !== studentId);
-    studetList.splice(0, studetList.length, ...newStudent); // reassign new array after deleting element (Delete from studetList has index = 0 to studetList.length, reassign)
+    studetList.splice(0, studetList.length, ...newStudent);
     return res.status(200).json({ message: studetList });
 });
 
@@ -108,7 +104,6 @@ StudentRouter.post('/updateStudent', (req, res) => {
             }
             getStudentId.name = studentName || getStudentId.name; // IF user enter name => update. Not => Keep the same
             getStudentId.classId = classID || getStudentId.classId; // IF user enter class => update. Not => Keep the same
-            
             return res.status(200).json({ message: studetList });
         }else{
             return res.status(400).json({ message: 'Student does not existed.' });

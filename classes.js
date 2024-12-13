@@ -20,9 +20,7 @@ ClassRouter.post('/addClass', (req, res) => {
         (e) => e.className == className || e.classID == classId,
     );
     if (!classId || !className) {
-        return res
-            .status(400)
-            .json({ message: 'Class ID or Class Name are not Empty!' });
+        return res.status(400).json({ message: 'Class ID or Class Name are not Empty!' });
     }
     if (checkExistClass) {
         return res.status(400).json({ message: 'Class Existed!' });
@@ -38,15 +36,13 @@ ClassRouter.post('/addClass', (req, res) => {
 // Xóa Lớp (nếu lớp còn HS thì ko được phép xóa)
 ClassRouter.delete('/deleteClass', (req, res) => {
     const { classID } = req.body;
-    const checkStudentInClass = studetList.find((e) => e.classId == classID); // Check Student In Class
+    const checkStudentInClass = studetList.find((e) => e.classId == classID);
     if (!checkStudentInClass) {
         let newClassList = classList.filter((e) => e.classID !== classID);
-        classList.splice(0, classList.length, ...newClassList); // reassign new array after deleting element (Delete from classList has index = 0 to classList.length, reassign)
+        classList.splice(0, classList.length, ...newClassList);
         return res.status(200).json({ message: classList });
     } else {
-        return res
-            .status(400)
-            .json({ message: 'Student are still in the Class!' });
+        return res.status(400).json({ message: 'Student are still in the Class!' });
     }
 });
 
@@ -55,11 +51,7 @@ ClassRouter.post('/updateClass', (req, res) => {
     const { classID, className } = req.body;
     const checkClassExist = classList.find((e) => e.classID == classID);
     if (checkClassExist) {
-        classList.forEach(function (e) {
-            if (e.classID == classID) {
-                e.className = className;
-            }
-        });
+        checkClassExist.className = className
         return res.status(200).json({ message: classList });
     } else {
         return res.status(400).json({ message: 'Class does not Existed!' });
