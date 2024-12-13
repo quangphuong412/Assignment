@@ -2,10 +2,12 @@ let { studetList, classList } = require('../model/data.js');
 const express = require('express');
 const ClassRouter = express.Router();
 
+const getclassByID =  (classId) => classList.find((e) => e.classID == classId);
+
 // Truy xuất thông tin Lớp theo ID
 ClassRouter.get('/getClassById/:classId', (req, res) => {
     const { classId } = req.params;
-    const getClassByID = classList.find((e) => e.classID == classId);
+    const getClassByID = getclassByID(classId);
     if (getClassByID) {
         return res.status(200).json({ message: getClassByID });
     } else {
@@ -52,7 +54,7 @@ ClassRouter.delete('/deleteClass', (req, res) => {
 // Update thông tin Lớp
 ClassRouter.post('/updateClass', (req, res) => {
     const { classID, className } = req.body;
-    const checkClassExist = classList.find((e) => e.classID == classID);
+    const checkClassExist = getclassByID(classID)
     if (checkClassExist) {
         checkClassExist.className = className
         return res.status(200).json({ message: classList });
