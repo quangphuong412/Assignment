@@ -25,7 +25,8 @@ StudentRouter.get('/getStudentById/:studentId', (req, res) => {
 // Truy xuất thông tin HS theo Name (search LIKE)
 StudentRouter.get('/getStudentByName', (req, res) => {
     const { stuName } = req.query;
-    const getStudentByName = studetList.find((e) => e.name == stuName);
+    console.log(stuName)
+    const getStudentByName = studetList.filter((e) => e.name.includes(stuName));
     if (getStudentByName) {
         return res.status(200).json({ message: getStudentByName });
     } else {
@@ -94,24 +95,15 @@ StudentRouter.post('/updateStudent', (req, res) => {
     if (studentId) {
         const getStudentId = studetList.find((e) => e.studentId == studentId);
         if (getStudentId) {
-            if (studentName) {
-                const checkNameExist = studetList.find(
-                    (e) => e.name == studentName,
-                );
+            if (studentName) { const checkNameExist = studetList.find((e) => e.name == studentName,);
                 if (checkNameExist) {
-                    return res
-                        .status(400)
-                        .json({ message: 'Student Name existed!.' });
+                    return res.status(400).json({ message: 'Student Name existed!.' });
                 }
             }
             if (classID) {
-                const checkClassExist = classList.find(
-                    (e) => e.classID == classID,
-                );
+                const checkClassExist = classList.find((e) => e.classID == classID);
                 if (!checkClassExist) {
-                    return res
-                        .status(400)
-                        .json({ message: 'Class does not existed!.' });
+                    return res.status(400).json({ message: 'Class does not existed!.' });
                 }
             }
             getStudentId.name = studentName || getStudentId.name; // IF user enter name => update. Not => Keep the same
