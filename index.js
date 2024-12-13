@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParse = require('body-parser');
-const StudentRouter = require('./student');
-const ClasstRouter = require('./classes');
+const StudentRouter = require('./src/routes/student');
+const ClasstRouter = require('./src/routes/classes');
 const app = express();
 
 app.use(bodyParse.json());

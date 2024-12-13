@@ -1,4 +1,4 @@
-let { studetList, classList } = require('../data');
+let { studetList, classList } = require('../model/data.js');
 const express = require('express');
 const StudentRouter = express.Router();
 
@@ -84,8 +84,11 @@ StudentRouter.post('/addStudent', (req, res) => {
 // Xóa học sinh
 StudentRouter.delete('/deleteStudent', (req, res) => {
     const { studentId } = req.body;
-    let newStudent = studetList.filter((e) => e.studentId !== studentId);
-    studetList.splice(0, studetList.length, ...newStudent);
+    let findStudentIndex = studetList.findIndex((e) => e.studentId == studentId)
+    if(findStudentIndex == -1){
+        return res.status(400).json({ message: 'Student does not existed!.' });
+    }
+    studetList.splice(findStudentIndex, 1);
     return res.status(200).json({ message: studetList });
 });
 

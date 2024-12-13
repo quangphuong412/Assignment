@@ -38,8 +38,11 @@ ClassRouter.delete('/deleteClass', (req, res) => {
     const { classID } = req.body;
     const checkStudentInClass = studetList.find((e) => e.classId == classID);
     if (!checkStudentInClass) {
-        let newClassList = classList.filter((e) => e.classID !== classID);
-        classList.splice(0, classList.length, ...newClassList);
+        let newClassList = classList.findIndex((e) => e.classID == classID);
+        if(newClassList == -1){
+            return res.status(400).json({ message: 'Class does not existed!' });
+        }
+        classList.splice(newClassList, 1)
         return res.status(200).json({ message: classList });
     } else {
         return res.status(400).json({ message: 'Student are still in the Class!' });
